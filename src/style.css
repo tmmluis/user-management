@@ -1,3 +1,9 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -12,6 +18,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
 }
 
 a {
@@ -25,14 +34,12 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: 1.8em;
   line-height: 1.1;
 }
 
@@ -40,7 +47,42 @@ h1 {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  text-align: center;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+}
+
+header {
+  background-color: red;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-sm);
+}
+
+#brand {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+#actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+footer {
+  background-color: #646cff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-sm);
+}
+
+#tech-stack {
+  display: flex;
+  align-items: center;
 }
 
 .logo {

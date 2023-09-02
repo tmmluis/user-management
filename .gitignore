@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# I use this file for syntax highlight and indentation of inline html
+draft.html
