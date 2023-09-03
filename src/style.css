@@ -80,9 +80,11 @@ footer {
   padding: var(--spacing-sm);
 }
 
-#tech-stack {
+#tech-stack,
+#social-media {
   display: flex;
   align-items: center;
+  gap: var(--spacing-sm);
 }
 
 .logo {
