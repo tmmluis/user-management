@@ -11,8 +11,12 @@ export function renderHeader() {
       </div>
       <div id="actions">
         <div id="theme-selection">
-          ${lightIcon}
-          ${darkIcon}
+          <button class="theme-button" title="Select light theme" data-color="light">
+            ${lightIcon}
+          </button>
+          <button class="theme-button" title="Select dark theme" data-color="dark">
+            ${darkIcon}
+          </button>
         </div>
         <button type="button">Action</button>
       </div>
