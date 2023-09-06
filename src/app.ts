@@ -1,6 +1,6 @@
 import './style.css';
 import { renderHeader } from './fragments/header';
-import { renderMain } from './fragments/main';
+import { addFormListeners, renderMain } from './fragments/main';
 import { renderFooter } from './fragments/footer';
 import { setThemePreference, handleThemeChange } from './theme';
 
@@ -14,6 +14,8 @@ function attachListeners() {
   themeButtons.forEach((button) =>
     button.addEventListener('click', () => handleThemeChange(button))
   );
+
+  addFormListeners();
 }
 
 renderApp();
