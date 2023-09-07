@@ -60,6 +60,10 @@ function addFormListeners() {
 
 async function handleLoginSubmission(e: SubmitEvent) {
   e.preventDefault();
+  const submitButton = document.querySelector(
+    'button[type="submit"]'
+  ) as HTMLButtonElement;
+  submitButton.disabled = true;
   const formData = new FormData(e.currentTarget as HTMLFormElement);
 
   try {
@@ -76,6 +80,8 @@ async function handleLoginSubmission(e: SubmitEvent) {
     }
   } catch {
     handleLoginError('Something went wrong. Please try again later.');
+  } finally {
+    submitButton.disabled = false;
   }
 }
 

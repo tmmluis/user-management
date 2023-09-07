@@ -209,6 +209,11 @@ button#toggle-password {
   border: none;
 }
 
+button[disabled] {
+  background-color: var(--surface2);
+  cursor: default;
+}
+
 .error {
   color: var(--error);
   font-size: 0.8rem;
