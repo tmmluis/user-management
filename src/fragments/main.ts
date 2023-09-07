@@ -1,3 +1,5 @@
+import { UserCredentials, loginUser } from '../api';
+
 export function renderMain() {
   return /*html*/ `
     <main>
@@ -47,5 +49,30 @@ export function addFormListeners() {
   }
 
   togglePasswordButton.addEventListener('click', togglePassword);
-  signInForm.addEventListener('submit', (e) => e.preventDefault());
+  signInForm.addEventListener('submit', handleLoginSubmission);
+}
+async function handleLoginSubmission(e: SubmitEvent) {
+  e.preventDefault();
+  const formData = new FormData(e.currentTarget as HTMLFormElement);
+  const response = await loginUser(
+    Object.fromEntries(formData) as UserCredentials
+  );
+
+  if (isLoginOk(response)) {
+    showDashboard();
+  } else {
+    showError();
+  }
+}
+
+function isLoginOk(response: object) {
+  return !Object.prototype.hasOwnProperty.call(response, 'error');
+}
+
+function showDashboard() {
+  console.log('Dashboard');
+}
+
+function showError() {
+  console.error('login failed');
 }
