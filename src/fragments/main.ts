@@ -54,14 +54,19 @@ export function addFormListeners() {
 async function handleLoginSubmission(e: SubmitEvent) {
   e.preventDefault();
   const formData = new FormData(e.currentTarget as HTMLFormElement);
-  const response = await loginUser(
-    Object.fromEntries(formData) as UserCredentials
-  );
 
-  if (isLoginOk(response)) {
-    showDashboard();
-  } else {
-    showError();
+  try {
+    const response = await loginUser(
+      Object.fromEntries(formData) as UserCredentials
+    );
+
+    if (isLoginOk(response)) {
+      showDashboard();
+    } else {
+      handleLoginError('Unable to login. Username or password are incorrect.');
+    }
+  } catch {
+    handleLoginError('Something went wrong. Please try again later.');
   }
 }
 
@@ -73,6 +78,19 @@ function showDashboard() {
   console.log('Dashboard');
 }
 
-function showError() {
+function handleLoginError(error: string) {
   console.error('login failed');
+  if (document.querySelector('form > .error') == null) {
+    const signInForm = document.getElementById(
+      'sign-in-form'
+    ) as HTMLFormElement;
+    signInForm.append(createErrorMessage(error));
+  }
+}
+
+function createErrorMessage(message: string) {
+  const errorMessage = document.createElement('p');
+  errorMessage.textContent = message;
+  errorMessage.setAttribute('class', 'error');
+  return errorMessage;
 }

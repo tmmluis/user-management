@@ -16,12 +16,14 @@
   --color-light-secondary: #d1d1d1;
   --color-light-text: #111;
   --color-light-active: #111;
+  --color-light-error: red;
 
   /*dark theme*/
   --color-dark-main: #242424;
   --color-dark-secondary: #303136;
   --color-dark-text: #eee;
   --color-dark-active: yellow;
+  --color-dark-error: red;
 }
 
 /* color schemes */
@@ -32,6 +34,7 @@
   --surface2: var(--color-light-secondary);
   --text1: var(--color-light-text);
   --active: var(--color-light-active);
+  --error: var(--color-light-error);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -42,6 +45,7 @@
     --surface2: var(--color-dark-secondary);
     --text1: var(--color-dark-text);
     --active: var(--color-dark-active);
+    --error: var(--color-dark-error);
   }
 }
 
@@ -52,6 +56,7 @@
   --surface2: var(--color-light-secondary);
   --text1: var(--color-light-text);
   --active: var(--color-light-active);
+  --error: var(--color-light-error);
 }
 
 [data-theme='dark'] {
@@ -61,6 +66,7 @@
   --surface2: var(--color-dark-secondary);
   --text1: var(--color-dark-text);
   --active: var(--color-dark-active);
+  --error: var(--color-dark-error);
 }
 
 /* style */
@@ -197,6 +203,11 @@ label {
 button#toggle-password {
   background: none;
   border: none;
+}
+
+.error {
+  color: var(--error);
+  font-size: 0.8rem;
 }
 
 .block {
