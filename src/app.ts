@@ -1,23 +1,25 @@
 import './style.css';
-import { renderHeader } from './fragments/header';
-import { addFormListeners, renderMain } from './fragments/main';
+import { renderHeader } from './fragments/header/header';
+import { renderMain } from './fragments/main';
 import { renderFooter } from './fragments/footer';
-import { setThemePreference, handleThemeChange } from './theme';
+import { renderLogin } from './fragments/login';
+import { renderDashboard } from './fragments/dashboard';
 
-function renderApp() {
-  document.querySelector<HTMLDivElement>('#app')!.innerHTML =
-    renderHeader() + renderMain() + renderFooter();
+function renderAppLayout(root: HTMLDivElement) {
+  renderHeader(root);
+  renderMain(root);
+  renderFooter(root);
 }
 
-function attachListeners() {
-  const themeButtons = document.querySelectorAll('.theme-button');
-  themeButtons.forEach((button) =>
-    button.addEventListener('click', () => handleThemeChange(button))
-  );
-
-  addFormListeners();
+function startApp() {
+  const storageKey = 'auth-token';
+  if (localStorage.getItem(storageKey)) {
+    renderDashboard();
+  } else {
+    renderLogin();
+  }
 }
 
-renderApp();
-setThemePreference();
-attachListeners();
+const root = document.querySelector('#app') as HTMLDivElement;
+renderAppLayout(root);
+startApp();

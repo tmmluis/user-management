@@ -181,8 +181,11 @@ main {
   padding: var(--spacing-lg);
 }
 
+#form-wrapper {
+  min-width: 360px;
+}
+
 #form-wrapper > h1 {
-  min-width: 320px;
   margin-bottom: var(--spacing-lg);
   border-bottom: 1px solid var(--text1);
   padding-bottom: var(--spacing-sm);
@@ -198,6 +201,7 @@ input {
 
 label {
   display: block;
+  margin-bottom: var(--spacing-sm);
 }
 
 button#toggle-password {
