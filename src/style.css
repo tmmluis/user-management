@@ -121,6 +121,16 @@ h1 {
   min-height: 100vh;
 }
 
+.block {
+  display: block;
+}
+
+.invisible {
+  display: none;
+}
+
+/* Header */
+
 header {
   background-color: var(--surface2);
   display: flex;
@@ -160,6 +170,8 @@ header {
   }
 }
 
+/* Footer */
+
 footer {
   background-color: var(--surface2);
   display: flex;
@@ -174,6 +186,8 @@ footer {
   align-items: center;
   gap: var(--spacing-sm);
 }
+
+/* Main Content */
 
 main {
   display: flex;
@@ -217,8 +231,4 @@ button[disabled] {
 .error {
   color: var(--error);
   font-size: 0.8rem;
-}
-
-.block {
-  display: block;
 }

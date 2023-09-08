@@ -3,7 +3,8 @@ import {
   isLoginSuccessResponse,
   loginUser,
 } from '../api/loginUser';
-import { createErrorMessage, showDashboard } from './main';
+import { dispatchLogin } from '../auth';
+import { createErrorMessage } from './main';
 
 export function renderLogin() {
   const wrapper = document.querySelector('main') as HTMLDivElement;
@@ -72,9 +73,7 @@ async function handleLoginSubmission(e: SubmitEvent) {
     );
 
     if (isLoginSuccessResponse(response)) {
-      const storageKey = 'auth-token';
-      localStorage.setItem(storageKey, response.token);
-      showDashboard();
+      dispatchLogin(response.token);
     } else {
       handleLoginError('Unable to login. Username or password are incorrect.');
     }
