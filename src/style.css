@@ -83,8 +83,6 @@
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -231,4 +229,8 @@ button[disabled] {
 .error {
   color: var(--error);
   font-size: 0.8rem;
+}
+
+table {
+  height: 280px;
 }
