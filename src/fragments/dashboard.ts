@@ -1,4 +1,4 @@
-import { getUsers } from '../api/getUsers';
+import { User, getUsers } from '../api/getUsers';
 
 export function renderDashboard() {
   const wrapper = document.querySelector<HTMLElement>('main')!;
@@ -6,15 +6,20 @@ export function renderDashboard() {
         <p>Loading...</p>
     `;
 
-  const initialPage = 1;
-  displayUsers(initialPage);
+  buildUserTable();
 }
 
-async function displayUsers(page: number) {
-  const userData = await getUsers(page);
-  const users = userData.data;
-  const wrapper = document.querySelector<HTMLElement>('main')!;
-  wrapper.innerHTML = /*html*/ `
+async function buildUserTable(page = 1) {
+  const { data: users, total_pages } = await getUsers(page);
+
+  renderTable(users);
+  renderPagination(page, total_pages);
+  attachListeners();
+}
+
+function renderTable(users: User[]) {
+  const main = document.querySelector<HTMLElement>('main')!;
+  main.innerHTML = /*html*/ `
     <table>
       <caption>Users</caption>
         <thead>
@@ -42,4 +47,36 @@ async function displayUsers(page: number) {
         </tbody>
     </table>  
   `;
+}
+
+function renderPagination(currentPage: number, totalPages: number) {
+  const wrapper = document.createElement('div');
+  wrapper.innerHTML = /*html*/ `
+    <nav>
+      <ul>
+        ${[...Array(totalPages).keys()]
+          .map(
+            (page) =>
+              `<li ${
+                page + 1 === currentPage ? 'class="active"' : ''
+              }><a data-page=${page + 1} href="#">${page + 1}</a></li>`
+          )
+          .join('')}
+      </ul>
+    </nav>
+  `;
+  const main = document.querySelector<HTMLElement>('main')!;
+  main.append(wrapper);
+}
+
+function attachListeners() {
+  const pageLinks = document.querySelectorAll('li a');
+  pageLinks.forEach((link) => link.addEventListener('click', handlePageClick));
+}
+
+function handlePageClick(e: Event) {
+  e.preventDefault();
+  const link = e.target as HTMLAnchorElement;
+  const page = link.getAttribute('data-page') as string;
+  buildUserTable(Number(page));
 }
