@@ -7,6 +7,7 @@
 
 /* variables */
 * {
+  --spacing-xs: 4px;
   --spacing-sm: 8px;
   --spacing-md: 16px;
   --spacing-lg: 32px;
@@ -33,6 +34,7 @@
   --surface1: var(--color-light-main);
   --surface2: var(--color-light-secondary);
   --text1: var(--color-light-text);
+  --text2: var(--color-dark-text);
   --active: var(--color-light-active);
   --error: var(--color-light-error);
 }
@@ -44,6 +46,7 @@
     --surface1: var(--color-dark-main);
     --surface2: var(--color-dark-secondary);
     --text1: var(--color-dark-text);
+    --text2: var(--color-light-text);
     --active: var(--color-dark-active);
     --error: var(--color-dark-error);
   }
@@ -55,6 +58,7 @@
   --surface1: var(--color-light-main);
   --surface2: var(--color-light-secondary);
   --text1: var(--color-light-text);
+  --text2: var(--color-dark-text);
   --active: var(--color-light-active);
   --error: var(--color-light-error);
 }
@@ -65,6 +69,7 @@
   --surface1: var(--color-dark-main);
   --surface2: var(--color-dark-secondary);
   --text1: var(--color-dark-text);
+  --text2: var(--color-light-text);
   --active: var(--color-dark-active);
   --error: var(--color-dark-error);
 }
@@ -189,7 +194,8 @@ footer {
 
 main {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   padding: var(--spacing-lg);
 }
 
@@ -231,6 +237,74 @@ button[disabled] {
   font-size: 0.8rem;
 }
 
+/* Table */
 table {
   height: 280px;
+  border-collapse: collapse;
+  margin: 0 0 var(--spacing-lg) 0;
+}
+
+caption {
+  padding: var(--spacing-lg);
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+thead tr {
+  background-color: var(--surface2);
+  color: var(--text1);
+  text-align: left;
+}
+
+th,
+td {
+  padding: var(--spacing-sm) var(--spacing-md);
+}
+
+tr {
+  border-bottom: 1px solid var(--active);
+}
+
+tbody tr:nth-of-type(even) {
+  background-color: var(--surface2);
+}
+
+tbody tr:last-of-type {
+  border-bottom: 2px solid var(--text1);
+}
+
+td:nth-child(1) {
+  min-width: 3ch;
+}
+
+td:nth-child(2) {
+  min-width: 30ch;
+}
+
+td:nth-child(3),
+td:nth-child(4) {
+  min-width: 14ch;
+}
+
+td:nth-child(5) {
+  min-width: 45ch;
+}
+
+/* Pagination */
+ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
+
+li a {
+  border: 1px solid var(--text1);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  margin-left: 2px;
+  color: var(--text1);
+}
+
+li.active a {
+  background-color: var(--text1);
+  color: var(--text2);
 }
