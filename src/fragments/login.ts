@@ -9,8 +9,8 @@ import { createErrorMessage } from './main';
 export function renderLogin() {
   const wrapper = document.querySelector('main') as HTMLDivElement;
   wrapper.innerHTML = /*html*/ `
-    <div class="form-wrapper">
-        <h1>Sign in</h1>
+    <div id="form-wrapper">
+        <h1>Sign in*</h1>
         <form name="sign-in-form" id="sign-in-form">
             <label for="email">Email (username)</label>
             <input id="email" name="email" type="email" required autocomplete="username"/>
@@ -25,7 +25,10 @@ export function renderLogin() {
             </button>
             <button type="submit" class="block">Sign in</button>
         </form>
-    </div>`;
+        </div>
+        <p>*This App uses fake API data from <a href="https://reqres.in/">Reqres</a>. 
+        Use one of their users to login (e.g. janet.weaver@reqres.in). The password can be anything.</p>
+    `;
 
   addFormListeners();
 }

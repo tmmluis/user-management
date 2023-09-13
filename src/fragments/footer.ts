@@ -2,6 +2,7 @@ import { viteIcon } from '../icons/vite';
 import { gitHubIcon } from '../icons/gitHub';
 import { typescriptIcon } from '../icons/typescript';
 import { linkedinIcon } from '../icons/linkedin';
+import reqresIcon from '../icons/reqres.png';
 
 export function renderFooter(container: HTMLDivElement) {
   const footer = document.createElement('footer');
@@ -13,6 +14,9 @@ export function renderFooter(container: HTMLDivElement) {
       </a>
         <a href="https://vitejs.dev/">
           ${viteIcon}
+        </a>
+        <a href="https://reqres.in/">
+          <img src=${reqresIcon} alt="Reqres" title="Reqres">
         </a>
     </div>
     <div id="social-media">

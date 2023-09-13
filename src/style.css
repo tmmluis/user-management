@@ -190,6 +190,10 @@ footer {
   gap: var(--spacing-sm);
 }
 
+footer img {
+  max-width: 50px;
+}
+
 /* Main Content */
 
 main {
@@ -201,6 +205,7 @@ main {
 
 #form-wrapper {
   min-width: 360px;
+  margin-bottom: var(--spacing-lg);
 }
 
 #form-wrapper > h1 {
@@ -237,6 +242,10 @@ button[disabled] {
   font-size: 0.8rem;
 }
 
+p {
+  font-size: 0.8rem;
+}
+
 /* Table */
 table {
   height: 280px;
@@ -262,7 +271,7 @@ td {
 }
 
 tr {
-  border-bottom: 1px solid var(--active);
+  border-bottom: 1px solid var(--text1);
 }
 
 tbody tr:nth-of-type(even) {
@@ -274,7 +283,7 @@ tbody tr:last-of-type {
 }
 
 td:nth-child(1) {
-  min-width: 3ch;
+  min-width: 6ch;
 }
 
 td:nth-child(2) {
@@ -305,6 +314,10 @@ li a {
 }
 
 li.active a {
-  background-color: var(--text1);
+  background-color: var(--active);
   color: var(--text2);
+}
+
+a:hover {
+  color: var(--active);
 }
