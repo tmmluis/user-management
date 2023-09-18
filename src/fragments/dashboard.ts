@@ -1,19 +1,29 @@
-import { User, getUsers } from '../api/getUsers';
+import { User } from '../api/getUsers';
+import { setPage, loadInitialState } from '../state';
 
-export function renderDashboard() {
+export async function renderDashboard() {
   const wrapper = document.querySelector<HTMLElement>('main')!;
   wrapper.innerHTML = /*html*/ `
         <p>Loading...</p>
     `;
 
-  buildUserTable();
+  const initState = await loadInitialState();
+  renderUserTable(initState);
 }
 
-async function buildUserTable(page = 1) {
-  const { data: users, total_pages } = await getUsers(page);
+type UserTableProps = {
+  users: User[];
+  totalPages: number;
+  currentPage: number;
+};
 
+async function renderUserTable({
+  users,
+  totalPages,
+  currentPage,
+}: UserTableProps) {
   renderTable(users);
-  renderPagination(page, total_pages);
+  renderPagination(currentPage, totalPages);
   attachListeners();
 }
 
@@ -78,5 +88,5 @@ function handlePageClick(e: Event) {
   e.preventDefault();
   const link = e.target as HTMLAnchorElement;
   const page = link.getAttribute('data-page') as string;
-  buildUserTable(Number(page));
+  renderUserTable(setPage(Number(page)));
 }
