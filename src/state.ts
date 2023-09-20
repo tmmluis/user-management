@@ -1,5 +1,5 @@
 import { User } from './api/getUsers';
-import userDB from './database';
+import { userDB } from './db/database';
 
 const USERS_PER_PAGE = 6;
 

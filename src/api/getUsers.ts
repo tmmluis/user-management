@@ -8,7 +8,7 @@ export type User = {
   avatar: string;
 };
 
-type UserData = {
+export type UserData = {
   data: User[];
   page: number;
   per_page: number;

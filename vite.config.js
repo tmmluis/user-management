@@ -7,4 +7,7 @@ export default {
       cache: true,
     }),
   ],
+  test: {
+    globals: true,
+  },
 };
