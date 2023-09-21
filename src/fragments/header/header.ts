@@ -20,7 +20,7 @@ export function renderHeader(container: HTMLDivElement) {
           ${darkIcon}
         </button>
       </div>
-      <button type="button" id="action-button" class="invisible"}>Logout</button>
+      <button type="button" id="action-button" class="invisible">Logout</button>
     </div>
   `;
   container.append(header);

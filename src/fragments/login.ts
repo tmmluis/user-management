@@ -8,7 +8,12 @@ import { createErrorMessage } from './main';
 
 export function renderLogin() {
   const wrapper = document.querySelector('main') as HTMLDivElement;
-  wrapper.innerHTML = /*html*/ `
+  wrapper.innerHTML = renderLoginForm();
+  addFormListeners();
+}
+
+function renderLoginForm() {
+  return /*html*/ `
     <div id="form-wrapper">
         <h1>Sign in*</h1>
         <form name="sign-in-form" id="sign-in-form">
@@ -29,8 +34,6 @@ export function renderLogin() {
         <p>*This App uses fake API data from <a href="https://reqres.in/">Reqres</a>. 
         Use one of their users to login (e.g. janet.weaver@reqres.in). The password can be anything.</p>
     `;
-
-  addFormListeners();
 }
 
 function addFormListeners() {

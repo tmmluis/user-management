@@ -1,35 +1,47 @@
 import { User } from '../api/getUsers';
 import { setPage, loadInitialState } from '../state';
+import { createErrorMessage } from './main';
 
 export async function renderDashboard() {
-  const wrapper = document.querySelector<HTMLElement>('main')!;
-  wrapper.innerHTML = /*html*/ `
-        <p>Loading...</p>
-    `;
+  const mainWrapper = document.querySelector<HTMLElement>('main')!;
+  mainWrapper.innerHTML = renderLoadingMessage();
 
-  const initState = await loadInitialState();
-  renderUserTable(initState);
+  try {
+    const initState = await loadInitialState();
+    renderUserDashboard(initState);
+  } catch (error) {
+    mainWrapper.innerHTML = createErrorMessage(
+      'There was an error loading users!'
+    );
+    console.error('Error loading initial state:', error);
+  }
 }
 
-type UserTableProps = {
+function renderLoadingMessage() {
+  return /*html*/ `
+    <p>Loading...</p>
+  `;
+}
+
+type UserDashboardProps = {
   users: User[];
   totalPages: number;
   currentPage: number;
 };
 
-async function renderUserTable({
+async function renderUserDashboard({
   users,
   totalPages,
   currentPage,
-}: UserTableProps) {
-  renderTable(users);
-  renderPagination(currentPage, totalPages);
+}: UserDashboardProps) {
+  const mainWrapper = document.querySelector<HTMLElement>('main')!;
+  mainWrapper.innerHTML =
+    renderTable(users) + renderPagination(currentPage, totalPages);
   attachListeners();
 }
 
 function renderTable(users: User[]) {
-  const main = document.querySelector<HTMLElement>('main')!;
-  main.innerHTML = /*html*/ `
+  return /*html*/ `
     <table>
       <caption>Users</caption>
         <thead>
@@ -60,23 +72,26 @@ function renderTable(users: User[]) {
 }
 
 function renderPagination(currentPage: number, totalPages: number) {
-  const wrapper = document.createElement('div');
-  wrapper.innerHTML = /*html*/ `
+  return /*html*/ `
     <nav>
       <ul>
-        ${[...Array(totalPages).keys()]
-          .map(
-            (page) =>
-              `<li ${
-                page + 1 === currentPage ? 'class="active"' : ''
-              }><a data-page=${page + 1} href="#">${page + 1}</a></li>`
-          )
-          .join('')}
+        ${renderPaginationLinks(currentPage, totalPages)}
       </ul>
     </nav>
   `;
-  const main = document.querySelector<HTMLElement>('main')!;
-  main.append(wrapper);
+}
+
+function renderPaginationLinks(currentPage: number, totalPages: number) {
+  return [...Array(totalPages).keys()]
+    .map((page) => {
+      const isActive = page + 1 === currentPage;
+      return /*html*/ `
+        <li ${isActive ? 'class="active"' : ''}>
+          <a data-page="${page + 1}" href="#">${page + 1}</a>
+        </li>
+      `;
+    })
+    .join('');
 }
 
 function attachListeners() {
@@ -88,5 +103,5 @@ function handlePageClick(e: Event) {
   e.preventDefault();
   const link = e.target as HTMLAnchorElement;
   const page = link.getAttribute('data-page') as string;
-  renderUserTable(setPage(Number(page)));
+  renderUserDashboard(setPage(Number(page)));
 }
