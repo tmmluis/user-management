@@ -5,7 +5,7 @@ import { getUsers, User } from '../api/getUsers';
  * It gets wiped out on browser refresh.
  * */
 
-type NewUser = Omit<User, 'id'>;
+export type NewUser = Omit<User, 'id'>;
 
 let users: User[] = [];
 let idSeed = 0;
@@ -23,18 +23,18 @@ const userDB = {
     return users.find((user) => user.id === id);
   },
 
-  getRecords(start: number, end: number) {
+  getMany(start?: number, end?: number) {
     return users.slice(start, end);
   },
 
-  addUser(newUser: NewUser) {
+  add(newUser: NewUser) {
     const user = { ...newUser, id: idSeed++ };
     users = [...users, user];
 
-    return users;
+    return user;
   },
 
-  deleteUser(id: number): null | User {
+  delete(id: number): null | User {
     const deletedUser = users.find((user) => user.id === id);
     if (!deletedUser) {
       return null;
@@ -44,11 +44,14 @@ const userDB = {
     return deletedUser;
   },
 
-  updateUser(user: User) {
+  update(user: User) {
     const index = users.findIndex((u) => u.id === user.id);
     if (index > -1) {
       users[index] = user;
+      return user;
     }
+
+    return null;
   },
 };
 

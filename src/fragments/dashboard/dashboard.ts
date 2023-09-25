@@ -1,6 +1,6 @@
-import { User } from '../api/getUsers';
-import { setPage, loadInitialState } from '../state';
-import { createErrorMessage } from './main';
+import { User } from '../../api/getUsers';
+import { setPage, loadInitialState, addUser } from './dashBoardState';
+import { createErrorMessage } from '../main';
 
 export async function renderDashboard() {
   const mainWrapper = document.querySelector<HTMLElement>('main')!;
@@ -29,14 +29,16 @@ type UserDashboardProps = {
   currentPage: number;
 };
 
-async function renderUserDashboard({
+export async function renderUserDashboard({
   users,
   totalPages,
   currentPage,
 }: UserDashboardProps) {
   const mainWrapper = document.querySelector<HTMLElement>('main')!;
   mainWrapper.innerHTML =
-    renderTable(users) + renderPagination(currentPage, totalPages);
+    renderTable(users) +
+    renderPagination(currentPage, totalPages) +
+    renderAddButton();
   attachListeners();
 }
 
@@ -81,6 +83,12 @@ function renderPagination(currentPage: number, totalPages: number) {
   `;
 }
 
+function renderAddButton() {
+  return /*html*/ `
+    <button type="button" id="add-button">Add user</button>
+  `;
+}
+
 function renderPaginationLinks(currentPage: number, totalPages: number) {
   return [...Array(totalPages).keys()]
     .map((page) => {
@@ -97,11 +105,21 @@ function renderPaginationLinks(currentPage: number, totalPages: number) {
 function attachListeners() {
   const pageLinks = document.querySelectorAll('li a');
   pageLinks.forEach((link) => link.addEventListener('click', handlePageClick));
+
+  const addButton = document.querySelector('#add-button');
+  addButton?.addEventListener('click', () => {
+    addUser({
+      first_name: 'tiago',
+      last_name: 'luis',
+      email: 'tiago@gmail.com',
+      avatar: 'aaa',
+    });
+  });
 }
 
 function handlePageClick(e: Event) {
   e.preventDefault();
   const link = e.target as HTMLAnchorElement;
   const page = link.getAttribute('data-page') as string;
-  renderUserDashboard(setPage(Number(page)));
+  setPage(Number(page));
 }

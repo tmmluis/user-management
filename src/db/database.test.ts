@@ -55,15 +55,6 @@ test('should find user by ID', () => {
   expect(user).toEqual(user1);
 });
 
-test('should return multiple users', () => {
-  const start = 0;
-  const end = 2;
-  const users = userDB.getRecords(start, end);
-
-  expect(users.length).toBe(2);
-  expect(userDB.getById(user1.id)).toEqual(user1);
-});
-
 const user3 = {
   email: 'tobias.funke@reqres.in',
   first_name: 'Tobias',
@@ -72,18 +63,32 @@ const user3 = {
 };
 
 test('should add user', () => {
-  const users = userDB.addUser(user3);
+  userDB.add(user3);
   const newUserId = 3;
   const addedUser = userDB.getById(newUserId) as User;
 
-  expect(users.length).toBe(3);
+  expect(userDB.getMany().length).toBe(3);
   expect(addedUser).toBeDefined();
   expect(addedUser.email).toBe('tobias.funke@reqres.in');
 });
 
+test('should return all users', () => {
+  const users = userDB.getMany();
+
+  expect(users.length).toBe(3);
+});
+
+test('should return a slice of users', () => {
+  const start = 1;
+  const end = 3;
+  const users = userDB.getMany(start, end);
+
+  expect(users.length).toBe(2);
+});
+
 test('should delete existing user', () => {
   const userId = 3;
-  const deletedUser = userDB.deleteUser(userId) as User;
+  const deletedUser = userDB.delete(userId) as User;
 
   expect(deletedUser).not.toBeNull();
   expect(deletedUser.email).toBe('tobias.funke@reqres.in');
@@ -91,7 +96,7 @@ test('should delete existing user', () => {
 
 test('should handle delete unexisting user', () => {
   const userId = 4;
-  const deletedUser = userDB.deleteUser(userId);
+  const deletedUser = userDB.delete(userId);
 
   expect(deletedUser).toBeNull();
 });
@@ -101,7 +106,7 @@ test('should update user', () => {
     ...user2,
     first_name: 'Tiago',
   };
-  userDB.updateUser(updatedUser);
+  userDB.update(updatedUser);
 
   expect(userDB.getById(user2.id)).toEqual(updatedUser);
   expect(userDB.getById(user1.id)).toEqual(user1);

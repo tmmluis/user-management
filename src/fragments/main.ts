@@ -1,4 +1,4 @@
-import { renderDashboard } from './dashboard';
+import { renderDashboard } from './dashboard/dashboard';
 import { renderLogin } from './login';
 
 export function renderMain(container: HTMLDivElement) {
