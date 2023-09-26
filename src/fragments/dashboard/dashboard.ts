@@ -1,6 +1,7 @@
 import { User } from '../../api/getUsers';
-import { setPage, loadInitialState, addUser } from './dashBoardState';
+import { setPage, loadInitialState } from './dashBoardState';
 import { createErrorMessage } from '../main';
+import { registerModalListeners, renderUserModal } from './userModal';
 
 export async function renderDashboard() {
   const mainWrapper = document.querySelector<HTMLElement>('main')!;
@@ -38,7 +39,8 @@ export async function renderUserDashboard({
   mainWrapper.innerHTML =
     renderTable(users) +
     renderPagination(currentPage, totalPages) +
-    renderAddButton();
+    renderAddButton() +
+    renderUserModal();
   attachListeners();
 }
 
@@ -103,18 +105,12 @@ function renderPaginationLinks(currentPage: number, totalPages: number) {
 }
 
 function attachListeners() {
+  // pagination
   const pageLinks = document.querySelectorAll('li a');
   pageLinks.forEach((link) => link.addEventListener('click', handlePageClick));
 
-  const addButton = document.querySelector('#add-button');
-  addButton?.addEventListener('click', () => {
-    addUser({
-      first_name: 'tiago',
-      last_name: 'luis',
-      email: 'tiago@gmail.com',
-      avatar: 'aaa',
-    });
-  });
+  // user modal
+  registerModalListeners();
 }
 
 function handlePageClick(e: Event) {

@@ -17,18 +17,18 @@ function renderLoginForm() {
     <div id="form-wrapper">
         <h1>Sign in*</h1>
         <form name="sign-in-form" id="sign-in-form">
-            <label for="email">Email (username)</label>
-            <input id="email" name="email" type="email" required autocomplete="username"/>
-            <label for="current-password">Password</label>
-            <input id="current-password" name="password" type="password" required autocomplete="current-password"/>
-            <button 
-            id="toggle-password" 
-            type="button" 
-            aria-label="Show password as plain text. Warning: this will display your password on the screen."
-            >
-                Show password
-            </button>
-            <button type="submit" class="block">Sign in</button>
+          <label for="email">Email (username)</label>
+          <input id="email" name="email" type="email" required autocomplete="username"/>
+          <label for="current-password">Password</label>
+          <input id="current-password" name="password" type="password" required autocomplete="current-password"/>
+          <button 
+          id="toggle-password" 
+          type="button" 
+          aria-label="Show password as plain text. Warning: this will display your password on the screen."
+          >
+              Show password
+          </button>
+          <button type="submit" class="block">Sign in</button>
         </form>
         </div>
         <p>*This App uses fake API data from <a href="https://reqres.in/">Reqres</a>. 
