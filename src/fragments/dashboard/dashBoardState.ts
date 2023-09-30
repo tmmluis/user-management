@@ -29,6 +29,7 @@ export function addUser(newUser: NewUser) {
   userDB.add(newUser);
   if (userDB.getMany().length / USERS_PER_PAGE > totalPages) {
     totalPages++;
+    currentPage = totalPages;
   }
 
   renderUserDashboard({
@@ -36,4 +37,20 @@ export function addUser(newUser: NewUser) {
     currentPage: totalPages,
     totalPages,
   });
+}
+
+export function removeUser(id: number) {
+  const deletedUser = userDB.delete(id);
+  if (deletedUser) {
+    if (userDB.getMany().length % USERS_PER_PAGE === 0) {
+      currentPage = currentPage === totalPages ? --currentPage : currentPage;
+      totalPages--;
+    }
+
+    renderUserDashboard({
+      users: getUsersPage(currentPage),
+      currentPage,
+      totalPages,
+    });
+  }
 }

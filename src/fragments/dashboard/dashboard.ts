@@ -1,7 +1,8 @@
 import { User } from '../../api/getUsers';
-import { setPage, loadInitialState } from './dashBoardState';
+import { setPage, loadInitialState, removeUser } from './dashBoardState';
 import { createErrorMessage } from '../main';
 import { registerModalListeners, renderUserModal } from './userModal';
+import { trashIcon } from '../../icons/trash';
 
 export async function renderDashboard() {
   const mainWrapper = document.querySelector<HTMLElement>('main')!;
@@ -55,6 +56,7 @@ function renderTable(users: User[]) {
             <th>First name</th>
             <th>Last name</th>
             <th>Avatar</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -67,6 +69,11 @@ function renderTable(users: User[]) {
             <td>${user.first_name}</td>
             <td>${user.last_name}</td>
             <td>${user.avatar}</td>
+            <td>
+              <button type="button" class="delete-button" data-id="${user.id}">
+                ${trashIcon}
+              </button>
+            </td>
           </tr>`
             )
             .join('')}
@@ -111,6 +118,12 @@ function attachListeners() {
 
   // user modal
   registerModalListeners();
+
+  // delete button
+  const deleteButtons = document.querySelectorAll('.delete-button');
+  deleteButtons.forEach((button) =>
+    button.addEventListener('click', handleDeleteUser)
+  );
 }
 
 function handlePageClick(e: Event) {
@@ -118,4 +131,9 @@ function handlePageClick(e: Event) {
   const link = e.target as HTMLAnchorElement;
   const page = link.getAttribute('data-page') as string;
   setPage(Number(page));
+}
+
+function handleDeleteUser(e: Event) {
+  const button = e.currentTarget as HTMLButtonElement;
+  removeUser(Number(button.dataset.id));
 }
