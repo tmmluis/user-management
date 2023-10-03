@@ -1,5 +1,4 @@
 import { NewUser } from '../../db/database';
-import { addUser } from './dashBoardState';
 
 export function renderUserModal() {
   return /*html*/ `
@@ -46,6 +45,11 @@ export function registerModalListeners() {
   // submit
   modal?.addEventListener('submit', () => {
     const formData = new FormData(newUserForm);
-    addUser(Object.fromEntries(formData) as NewUser);
+    window.dispatchEvent(
+      new CustomEvent('user:new', {
+        bubbles: true,
+        detail: { newUser: Object.fromEntries(formData) as NewUser },
+      })
+    );
   });
 }
