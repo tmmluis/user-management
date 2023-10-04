@@ -7,6 +7,8 @@ import { getUsers, User } from '../api/getUsers';
 
 export type NewUser = Omit<User, 'id'>;
 
+export const USERS_PER_PAGE = 6;
+
 let users: User[] = [];
 let idSeed = 0;
 
@@ -16,14 +18,20 @@ const userDB = {
     users = users.concat((await getUsers(2)).data);
     idSeed = users[users.length - 1].id + 1;
 
-    return users;
+    return Math.ceil(users.length / USERS_PER_PAGE);
   },
 
   getById(id: number) {
     return users.find((user) => user.id === id);
   },
 
-  getMany(start?: number, end?: number) {
+  getAll() {
+    return [...users];
+  },
+
+  getUsersPage(page: number) {
+    const end = page * USERS_PER_PAGE;
+    const start = end - USERS_PER_PAGE;
     return users.slice(start, end);
   },
 

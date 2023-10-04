@@ -1,3 +1,5 @@
+import { userStore } from './userStore';
+
 (() => {
   class TablePagination extends HTMLElement {
     constructor() {
@@ -42,14 +44,14 @@
       return Number(this.getAttribute('total-pages'));
     }
 
-    handlePageClick(e: Event) {
+    async handlePageClick(e: Event) {
       e.preventDefault();
       const link = e.target as HTMLAnchorElement;
       const page = Number(link.getAttribute('page'));
+      userStore.setPage(page);
       this.dispatchEvent(
-        new CustomEvent('pagination:changed', {
+        new CustomEvent('userStore:updated', {
           bubbles: true,
-          detail: { currentPage: page },
         })
       );
     }

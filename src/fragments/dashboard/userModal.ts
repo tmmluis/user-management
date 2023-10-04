@@ -1,4 +1,5 @@
 import { NewUser } from '../../db/database';
+import { userStore } from './userStore';
 
 export function renderUserModal() {
   return /*html*/ `
@@ -45,11 +46,6 @@ export function registerModalListeners() {
   // submit
   modal?.addEventListener('submit', () => {
     const formData = new FormData(newUserForm);
-    window.dispatchEvent(
-      new CustomEvent('user:new', {
-        bubbles: true,
-        detail: { newUser: Object.fromEntries(formData) as NewUser },
-      })
-    );
+    userStore.addUser(Object.fromEntries(formData) as NewUser);
   });
 }

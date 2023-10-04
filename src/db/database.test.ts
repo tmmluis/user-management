@@ -43,10 +43,10 @@ vi.mock('../api/getUsers.ts', () => {
 });
 
 test('should init DB', async () => {
-  const users = await userDB.init();
+  const pages = await userDB.init();
 
   expect(getUsers).toHaveBeenCalledTimes(2);
-  expect(users.length).toBe(2);
+  expect(pages).toBe(1);
 });
 
 test('should find user by ID', () => {
@@ -67,23 +67,22 @@ test('should add user', () => {
   const newUserId = 3;
   const addedUser = userDB.getById(newUserId) as User;
 
-  expect(userDB.getMany().length).toBe(3);
+  expect(userDB.getAll().length).toBe(3);
   expect(addedUser).toBeDefined();
   expect(addedUser.email).toBe('tobias.funke@reqres.in');
 });
 
 test('should return all users', () => {
-  const users = userDB.getMany();
+  const users = userDB.getAll();
 
   expect(users.length).toBe(3);
 });
 
-test('should return a slice of users', () => {
-  const start = 1;
-  const end = 3;
-  const users = userDB.getMany(start, end);
+test('should return a page of users', () => {
+  const page = 1;
+  const users = userDB.getUsersPage(page);
 
-  expect(users.length).toBe(2);
+  expect(users.length).toBe(3);
 });
 
 test('should delete existing user', () => {

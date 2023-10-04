@@ -1,98 +1,22 @@
-import { User } from '../../api/getUsers';
-import { NewUser, userDB } from '../../db/database';
 import { trashIcon } from '../../icons/trash';
 import './TablePagination';
+import { State, userStore } from './userStore';
 
 (() => {
-  type State = {
-    users: User[];
-    currentPage: number;
-    totalPages: number;
-  };
-
-  const USERS_PER_PAGE = 6;
-
   class UserTable extends HTMLElement {
-    state: State;
-
     constructor() {
       super();
 
-      this.state = {
-        totalPages: 0,
-        currentPage: 0,
-        users: [],
-      };
-
-      this.handlePageChange = this.handlePageChange.bind(this);
+      this.handleStoreUpdate = this.handleStoreUpdate.bind(this);
       this.handleDeleteUser = this.handleDeleteUser.bind(this);
-      this.handleAddUser = this.handleAddUser.bind(this);
     }
 
     async connectedCallback() {
       this.innerHTML = /*html*/ `<p>Loading...</p>`;
       try {
-        await this.loadInitialState();
+        this.render(await userStore.init());
       } catch (e) {
         this.innerHTML = /*html*/ `<p class="error">Error: could not load users.</p>`;
-      }
-    }
-
-    async loadInitialState() {
-      await userDB.init();
-      const initialPage = 1;
-      const totalPages = 2;
-      const users = this.getUsersPage(initialPage);
-
-      this.setState({ totalPages, currentPage: initialPage, users });
-    }
-
-    setState(newState: State) {
-      this.state = newState;
-      this.render(newState);
-    }
-
-    getUsersPage(page: number) {
-      const end = page * USERS_PER_PAGE;
-      const start = end - USERS_PER_PAGE;
-      return userDB.getMany(start, end);
-    }
-
-    setPage(page: number) {
-      const users = this.getUsersPage(page);
-      this.setState({ ...this.state, users, currentPage: page });
-    }
-
-    addUser(newUser: NewUser) {
-      userDB.add(newUser);
-      let { totalPages, currentPage } = this.state;
-      if (userDB.getMany().length / USERS_PER_PAGE > totalPages) {
-        totalPages++;
-        currentPage = totalPages;
-      }
-
-      this.setState({
-        users: this.getUsersPage(totalPages),
-        currentPage,
-        totalPages,
-      });
-    }
-
-    removeUser(id: number) {
-      const deletedUser = userDB.delete(id);
-      if (deletedUser) {
-        let { currentPage, totalPages } = this.state;
-        if (userDB.getMany().length % USERS_PER_PAGE === 0) {
-          currentPage =
-            currentPage === totalPages ? --currentPage : currentPage;
-          totalPages = --totalPages;
-        }
-
-        this.setState({
-          users: this.getUsersPage(currentPage),
-          currentPage,
-          totalPages,
-        });
       }
     }
 
@@ -133,8 +57,7 @@ import './TablePagination';
         <table-pagination current-page="${currentPage}" total-pages="${totalPages}"></table-pagination>
       `;
 
-      window.addEventListener('pagination:changed', this.handlePageChange);
-      window.addEventListener('user:new', this.handleAddUser);
+      window.addEventListener('userStore:updated', this.handleStoreUpdate);
 
       const deleteButtons = document.querySelectorAll('.delete-button');
       deleteButtons.forEach((button) =>
@@ -142,26 +65,15 @@ import './TablePagination';
       );
     }
 
-    handlePageChange(e: CustomEvent) {
-      this.setPage(e.detail.currentPage);
+    async handleStoreUpdate() {
+      this.render(userStore.getState());
     }
 
-    handleDeleteUser(e: Event) {
+    async handleDeleteUser(e: Event) {
       const button = e.currentTarget as HTMLButtonElement;
-      this.removeUser(Number(button.dataset.id));
-    }
-
-    handleAddUser(e: CustomEvent) {
-      this.addUser(e.detail.newUser);
+      userStore.removeUser(Number(button.dataset.id));
     }
   }
 
   customElements.define('user-table', UserTable);
 })();
-
-declare global {
-  interface WindowEventMap {
-    'pagination:changed': CustomEvent;
-    'user:new': CustomEvent;
-  }
-}
