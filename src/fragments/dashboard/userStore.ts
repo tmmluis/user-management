@@ -22,13 +22,13 @@ export const userStore = {
   },
 
   getState() {
-    return state;
+    return { ...state };
   },
 
   setState(newState: State) {
     state = { ...newState };
     window.dispatchEvent(new CustomEvent('userStore:updated'));
-    return state;
+    return { ...state };
   },
 
   setPage(page: number) {

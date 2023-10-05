@@ -8,7 +8,6 @@ import { State, userStore } from './userStore';
       super();
 
       this.handleStoreUpdate = this.handleStoreUpdate.bind(this);
-      this.handleDeleteUser = this.handleDeleteUser.bind(this);
     }
 
     async connectedCallback() {
