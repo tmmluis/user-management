@@ -1,13 +1,12 @@
+import { State, userStore } from './userStore';
 import { trashIcon } from '../../icons/trash';
 import './TablePagination';
-import { State, userStore } from './userStore';
+import './DeleteUser';
 
 (() => {
   class UserTable extends HTMLElement {
     constructor() {
       super();
-
-      this.handleStoreUpdate = this.handleStoreUpdate.bind(this);
     }
 
     async connectedCallback() {
@@ -37,17 +36,13 @@ import { State, userStore } from './userStore';
               ${users
                 .map(
                   (user) =>
-                    `<tr>
+                    `<tr user-id="${user.id}">
                 <td>${user.id}</td>
                 <td>${user.email}</td>
                 <td>${user.first_name}</td>
                 <td>${user.last_name}</td>
                 <td>${user.avatar}</td>
-                <td>
-                  <button type="button" class="delete-button" data-id="${user.id}">
-                    ${trashIcon}
-                  </button>
-                </td>
+                <td id="row-actions"></td>
               </tr>`
                 )
                 .join('')}
@@ -56,21 +51,31 @@ import { State, userStore } from './userStore';
         <table-pagination current-page="${currentPage}" total-pages="${totalPages}"></table-pagination>
       `;
 
-      window.addEventListener('userStore:updated', this.handleStoreUpdate);
+      this.attachListeners();
+    }
 
-      const deleteButtons = document.querySelectorAll('.delete-button');
-      deleteButtons.forEach((button) =>
-        button.addEventListener('click', this.handleDeleteUser)
+    attachListeners() {
+      window.addEventListener('userStore:updated', () =>
+        this.render(userStore.getState())
       );
-    }
 
-    async handleStoreUpdate() {
-      this.render(userStore.getState());
-    }
+      const userRows = document.querySelectorAll('tbody tr');
+      userRows.forEach((row) => {
+        const userId = row.getAttribute('user-id');
+        const actionsContainer = row.querySelector(
+          '#row-actions'
+        ) as HTMLElement;
 
-    async handleDeleteUser(e: Event) {
-      const button = e.currentTarget as HTMLButtonElement;
-      userStore.removeUser(Number(button.dataset.id));
+        row.addEventListener('mouseover', () => {
+          actionsContainer.innerHTML = /*html*/ `
+              <button type="button" is="delete-user" user-id="${userId}">${trashIcon}</button>
+            `;
+        });
+
+        row.addEventListener('mouseleave', () => {
+          actionsContainer.innerHTML = '';
+        });
+      });
     }
   }
 
