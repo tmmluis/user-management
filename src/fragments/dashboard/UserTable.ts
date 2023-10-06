@@ -1,7 +1,6 @@
 import { State, userStore } from './userStore';
-import { trashIcon } from '../../icons/trash';
 import './TablePagination';
-import './DeleteUser';
+import './RowActions';
 
 (() => {
   class UserTable extends HTMLElement {
@@ -60,23 +59,23 @@ import './DeleteUser';
       );
 
       const userRows = document.querySelectorAll('tbody tr');
-      userRows.forEach((row) => {
-        const userId = row.getAttribute('user-id');
-        const actionsContainer = row.querySelector(
-          '#row-actions'
-        ) as HTMLElement;
-
-        row.addEventListener('mouseover', () => {
-          actionsContainer.innerHTML = /*html*/ `
-              <button type="button" is="delete-user" user-id="${userId}">${trashIcon}</button>
-            `;
-        });
-
-        row.addEventListener('mouseleave', () => {
-          actionsContainer.innerHTML = '';
-        });
-      });
+      userRows.forEach(attachRowListeners);
     }
+  }
+
+  function attachRowListeners(row: Element) {
+    const userId = row.getAttribute('user-id');
+    const actionsContainer = row.querySelector('#row-actions') as HTMLElement;
+
+    row.addEventListener('mouseover', () => {
+      actionsContainer.innerHTML = /*html*/ `
+          <row-actions user-id="${userId}"></row-actions>
+        `;
+    });
+
+    row.addEventListener('mouseleave', () => {
+      actionsContainer.innerHTML = '';
+    });
   }
 
   customElements.define('user-table', UserTable);
