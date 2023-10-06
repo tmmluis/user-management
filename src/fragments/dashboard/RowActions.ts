@@ -24,7 +24,9 @@ import { userStore } from './userStore';
       const userId = Number(this.getAttribute('user-id'));
 
       editButtton.addEventListener('click', () =>
-        console.log(`editing: ${userId}`)
+        editButtton.dispatchEvent(
+          new CustomEvent('userRow:edit', { bubbles: true })
+        )
       );
       deleteButtton.addEventListener('click', () =>
         userStore.removeUser(userId)
