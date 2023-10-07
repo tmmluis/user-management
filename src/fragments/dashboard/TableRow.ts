@@ -1,9 +1,10 @@
 import { User } from '../../api/getUsers';
 import './RowActions';
+import { userStore } from './userStore';
 
 export class TableRow extends HTMLTableRowElement {
   user: User;
-  editable: boolean;
+  editing: boolean;
   mouseOver: boolean;
 
   constructor() {
@@ -15,12 +16,16 @@ export class TableRow extends HTMLTableRowElement {
       last_name: '',
       avatar: '',
     };
-    this.editable = false;
+    this.editing = false;
     this.mouseOver = false;
 
-    this.handleEdit = this.handleEdit.bind(this);
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleLeave = this.handleLeave.bind(this);
+
+    this.handleEdit = this.handleEdit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleSave = this.handleSave.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
   connectedCallback() {
@@ -29,32 +34,33 @@ export class TableRow extends HTMLTableRowElement {
   }
 
   render() {
-    console.log(`rendering row ${this.user.id} - ${this.mouseOver}`);
     const { id, email, first_name, last_name, avatar } = this.user;
     this.innerHTML = /*html*/ `
-        <tr user-id="${id}">
+        <tr>
           <td>${id}</td>
           <td>${
-            this.editable ? `<input type="email" value=${email} />` : `${email}`
+            this.editing
+              ? `<input type="email" value="${email}" id="email"/>`
+              : `${email}`
           }</td>
           <td>${
-            this.editable
-              ? `<input type="text" value=${first_name} />`
+            this.editing
+              ? `<input type="text" value="${first_name}" id="first-name"/>`
               : `${first_name}`
           }</td>
           <td>${
-            this.editable
-              ? `<input type="text" value=${last_name} />`
+            this.editing
+              ? `<input type="text" value="${last_name}" id="last-name"/>`
               : `${last_name}`
           }</td>
           <td>${
-            this.editable
-              ? `<input type="text" value=${avatar} />`
+            this.editing
+              ? `<input type="text" value="${avatar}" id="avatar"/>`
               : `${avatar}`
           }</td>
           <td>${
             this.mouseOver
-              ? `<row-actions user-id="${this.user.id}"></row-actions>`
+              ? `<row-actions editing="${this.editing}"></row-actions>`
               : ''
           }</td>
         </tr>
@@ -65,6 +71,9 @@ export class TableRow extends HTMLTableRowElement {
     this.addEventListener('mouseover', this.handleMouseOver);
     this.addEventListener('mouseleave', this.handleLeave);
     this.addEventListener('userRow:edit', this.handleEdit);
+    this.addEventListener('userRow:delete', this.handleDelete);
+    this.addEventListener('userRow:save', this.handleSave);
+    this.addEventListener('userRow:cancel', this.handleCancel);
   }
 
   handleMouseOver() {
@@ -75,7 +84,7 @@ export class TableRow extends HTMLTableRowElement {
   }
 
   handleLeave() {
-    if (!this.editable) {
+    if (!this.editing) {
       this.mouseOver = false;
       this.render();
     }
@@ -83,7 +92,27 @@ export class TableRow extends HTMLTableRowElement {
 
   handleEdit() {
     this.mouseOver = true;
-    this.editable = true;
+    this.editing = true;
+    this.render();
+  }
+
+  handleDelete() {
+    userStore.removeUser(this.user.id);
+  }
+
+  handleSave() {
+    userStore.updateUser({
+      id: this.user.id,
+      email: (this.querySelector('#email') as HTMLInputElement).value,
+      first_name: (this.querySelector('#first-name') as HTMLInputElement).value,
+      last_name: (this.querySelector('#last-name') as HTMLInputElement).value,
+      avatar: (this.querySelector('#avatar') as HTMLInputElement).value,
+    });
+  }
+
+  handleCancel() {
+    this.mouseOver = true;
+    this.editing = false;
     this.render();
   }
 }

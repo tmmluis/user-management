@@ -67,4 +67,14 @@ export const userStore = {
       });
     }
   },
+
+  updateUser(user: User) {
+    userDB.update(user);
+    const { currentPage, totalPages } = this.getState();
+    this.setState({
+      users: userDB.getUsersPage(currentPage),
+      currentPage,
+      totalPages,
+    });
+  },
 };
