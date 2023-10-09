@@ -13,16 +13,18 @@
   --spacing-lg: 32px;
 
   /*light theme*/
-  --color-light-main: #eee;
-  --color-light-secondary: #d1d1d1;
-  --color-light-text: #111;
-  --color-light-active: #111;
+  --color-light-brand: #bbb4b4;
+  --color-light-primary: #fdfcfc;
+  --color-light-secondary: #e7e4e4;
+  --color-light-text: #1d1b1b;
+  --color-light-active: yellow;
   --color-light-error: red;
 
   /*dark theme*/
-  --color-dark-main: #242424;
-  --color-dark-secondary: #303136;
-  --color-dark-text: #eee;
+  --color-dark-brand: #585656;
+  --color-dark-primary: #242323;
+  --color-dark-secondary: #3e3d3d;
+  --color-dark-text: #d6d1d1;
   --color-dark-active: yellow;
   --color-dark-error: red;
 }
@@ -31,10 +33,11 @@
 :root {
   color-scheme: light;
 
-  --surface1: var(--color-light-main);
+  --surface-brand: var(--color-light-brand);
+  --surface1: var(--color-light-primary);
   --surface2: var(--color-light-secondary);
   --text1: var(--color-light-text);
-  --text2: var(--color-dark-text);
+  --text2: var(--color-light-text);
   --active: var(--color-light-active);
   --error: var(--color-light-error);
 }
@@ -43,7 +46,8 @@
   :root {
     color-scheme: dark;
 
-    --surface1: var(--color-dark-main);
+    --surface-brand: var(--color-dark-brand);
+    --surface1: var(--color-dark-primary);
     --surface2: var(--color-dark-secondary);
     --text1: var(--color-dark-text);
     --text2: var(--color-light-text);
@@ -55,10 +59,11 @@
 [data-theme='light'] {
   color-scheme: light;
 
-  --surface1: var(--color-light-main);
+  --surface-brand: var(--color-light-brand);
+  --surface1: var(--color-light-primary);
   --surface2: var(--color-light-secondary);
   --text1: var(--color-light-text);
-  --text2: var(--color-dark-text);
+  --text2: var(--color-light-text);
   --active: var(--color-light-active);
   --error: var(--color-light-error);
 }
@@ -66,7 +71,8 @@
 [data-theme='dark'] {
   color-scheme: dark;
 
-  --surface1: var(--color-dark-main);
+  --surface-brand: var(--color-dark-brand);
+  --surface1: var(--color-dark-primary);
   --surface2: var(--color-dark-secondary);
   --text1: var(--color-dark-text);
   --text2: var(--color-light-text);
@@ -103,14 +109,16 @@ a {
 }
 
 a:hover {
-  color: #535bf2;
+  color: var(--active);
 }
 
 button {
   color: var(--text1);
-  background-color: var(--surface1);
+  background-color: var(--surface2);
   cursor: pointer;
   padding: var(--spacing-sm);
+  border-radius: 0.5ch;
+  font-weight: 500;
 }
 
 h1 {
@@ -135,7 +143,7 @@ h1 {
 /* Header */
 
 header {
-  background-color: var(--surface2);
+  background-color: var(--surface-brand);
   display: flex;
   justify-content: space-between;
   padding: var(--spacing-sm);
@@ -176,7 +184,7 @@ header {
 /* Footer */
 
 footer {
-  background-color: var(--surface2);
+  background-color: var(--surface-brand);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -220,6 +228,7 @@ input {
   padding: var(--spacing-sm);
   margin-bottom: var(--spacing-md);
   width: 30ch;
+  border-radius: 0.5ch;
 }
 
 label {
@@ -233,7 +242,7 @@ button#toggle-password {
 }
 
 button[disabled] {
-  background-color: var(--surface2);
+  background-color: var(--surface-brand);
   cursor: default;
 }
 
@@ -268,6 +277,7 @@ thead tr {
 th,
 td {
   padding: var(--spacing-sm) var(--spacing-md);
+  margin: 1px 0 1px 0;
 }
 
 tr {
@@ -293,10 +303,46 @@ td:nth-child(2) {
 td:nth-child(3),
 td:nth-child(4) {
   min-width: 14ch;
+
+  & input {
+    width: 12ch;
+  }
 }
 
 td:nth-child(5) {
-  min-width: 45ch;
+  min-width: 42ch;
+
+  & input {
+    width: 38ch;
+  }
+}
+
+td:nth-child(6) {
+  min-width: 10ch;
+}
+
+tr input {
+  margin: 0;
+  padding: var(--spacing-xs);
+}
+
+row-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+row-actions button {
+  border: none;
+  padding: 0;
+  background-color: transparent;
+}
+
+#save-button {
+  color: green;
+}
+
+#cancel-button {
+  color: red;
 }
 
 /* Pagination */
@@ -308,16 +354,47 @@ ul {
 
 li a {
   border: 1px solid var(--text1);
+  border-radius: 0.2ch;
   padding: var(--spacing-xs) var(--spacing-sm);
   margin-left: 2px;
   color: var(--text1);
 }
 
 li.active a {
-  background-color: var(--active);
-  color: var(--text2);
+  background-color: var(--surface2);
+
+  &:hover {
+    color: var(--text1);
+    cursor: default;
+  }
 }
 
 a:hover {
+  background-color: var(--surface-brand);
   color: var(--active);
+}
+
+/* Modal */
+
+#add-button {
+  position: relative;
+  bottom: 49px;
+  left: 486px;
+}
+
+dialog {
+  background-color: var(--surface1);
+  color: var(--text1);
+  border: 2px solid var(--text1);
+  border-radius: 0.5ch;
+
+  & menu {
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  & button {
+    background-color: var(--surface2);
+  }
 }
