@@ -22,7 +22,8 @@ function attachListeners() {
 }
 
 export function createErrorMessage(message: string) {
-  return /*html*/ `
-    <p class="error">${message}</p>
-  `;
+  const element = document.createElement('p');
+  element.classList.add('error');
+  element.innerText = message;
+  return element;
 }
