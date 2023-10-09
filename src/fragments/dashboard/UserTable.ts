@@ -7,6 +7,7 @@ import './RowActions';
   class UserTable extends HTMLElement {
     constructor() {
       super();
+      this.handleStoreUpdate = this.handleStoreUpdate.bind(this);
     }
 
     async connectedCallback() {
@@ -16,6 +17,12 @@ import './RowActions';
       } catch (e) {
         this.innerHTML = /*html*/ `<p class="error">Error: could not load users.</p>`;
       }
+
+      window.addEventListener('userStore:updated', this.handleStoreUpdate);
+    }
+
+    disconnectedCallback() {
+      window.removeEventListener('userStore:updated', this.handleStoreUpdate);
     }
 
     render({ users, currentPage, totalPages }: State) {
@@ -42,14 +49,10 @@ import './RowActions';
         row.user = user;
         this.querySelector('tbody')?.append(row);
       });
-
-      this.attachListeners();
     }
 
-    attachListeners() {
-      window.addEventListener('userStore:updated', () =>
-        this.render(userStore.getState())
-      );
+    handleStoreUpdate() {
+      this.render(userStore.getState());
     }
   }
 
