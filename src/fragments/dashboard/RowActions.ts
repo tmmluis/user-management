@@ -24,8 +24,8 @@ import { trashIcon } from '../../icons/trash';
     render() {
       if (!this.editing) {
         this.innerHTML = /*html*/ `
-            <button type="button" id="edit-button">${editIcon}</button>
-            <button type="button" id="delete-button">${trashIcon}</button>
+            <button type="button" id="edit-button" title="Edit">${editIcon}</button>
+            <button type="button" id="delete-button" title="Delete">${trashIcon}</button>
           `;
 
         const editButtton = this.querySelector(
@@ -39,8 +39,8 @@ import { trashIcon } from '../../icons/trash';
         deleteButtton.addEventListener('click', this.handleDelete);
       } else {
         this.innerHTML = /*html*/ `
-            <button type="button" id="save-button">${checkIcon}</button>
-            <button type="button" id="cancel-button">${cancelIcon}</button>
+            <button type="button" id="save-button" title="Save">${checkIcon}</button>
+            <button type="button" id="cancel-button" title="Cancel">${cancelIcon}</button>
           `;
 
         const saveButtton = this.querySelector(
