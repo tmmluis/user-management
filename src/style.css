@@ -256,8 +256,11 @@ p {
 }
 
 /* Table */
+user-table > div {
+  height: 385px;
+}
+
 table {
-  height: 280px;
   border-collapse: collapse;
   margin: 0 0 var(--spacing-lg) 0;
 }

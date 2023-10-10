@@ -27,20 +27,22 @@ import './RowActions';
 
     render({ users, currentPage, totalPages }: State) {
       this.innerHTML = /*html*/ `
-        <table>
-          <caption>Users</caption>
-            <thead>
-              <tr>
-                <th>Id</th>
-                <th>Email</th>
-                <th>First name</th>
-                <th>Last name</th>
-                <th>Avatar</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+        <div>
+          <table>
+            <caption>Users</caption>
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Email</th>
+                  <th>First name</th>
+                  <th>Last name</th>
+                  <th>Avatar</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+          </table>
+        </div>
         <table-pagination current-page="${currentPage}" total-pages="${totalPages}"></table-pagination>
       `;
 
