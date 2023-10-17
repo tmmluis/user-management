@@ -1,8 +1,4 @@
-import {
-  UserCredentials,
-  isLoginSuccessResponse,
-  loginUser,
-} from '../api/loginUser';
+import { UserCredentials, loginUser } from '../api/loginUser';
 import { dispatchLogin } from '../auth';
 import { createErrorMessage } from './main';
 
@@ -71,23 +67,18 @@ async function handleLoginSubmission(e: SubmitEvent) {
     'button[type="submit"]'
   ) as HTMLButtonElement;
   submitButton.disabled = true;
+
   const formData = new FormData(e.currentTarget as HTMLFormElement);
-
-  try {
-    const response = await loginUser(
-      Object.fromEntries(formData) as UserCredentials
-    );
-
-    if (isLoginSuccessResponse(response)) {
-      dispatchLogin(response.token);
-    } else {
-      handleLoginError('Unable to login. Username or password are incorrect.');
-    }
-  } catch {
-    handleLoginError('Something went wrong. Please try again later.');
-  } finally {
-    submitButton.disabled = false;
+  const loginToken = await loginUser(
+    Object.fromEntries(formData) as UserCredentials
+  );
+  if (loginToken) {
+    dispatchLogin(loginToken);
+  } else {
+    handleLoginError('Error: could not login!');
   }
+
+  submitButton.disabled = false;
 }
 
 function handleLoginError(error: string) {

@@ -8,16 +8,13 @@ export type User = {
   avatar: string;
 };
 
-export type UserData = {
-  data: User[];
-  page: number;
-  per_page: number;
-  total: number;
-  total_pages: number;
-};
-
 export async function getUsers(page: number) {
-  const response = await fetch(`${BASE_URL}users?page=${page}`);
-  const data = (await response.json()) as UserData;
-  return data;
+  try {
+    const users = await fetch(`${BASE_URL}users?page=${page}`)
+      .then((response) => response.json())
+      .then((jsonData) => jsonData.data);
+    return users as User[];
+  } catch (error) {
+    return null;
+  }
 }

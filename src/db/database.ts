@@ -14,8 +14,8 @@ let idSeed = 0;
 
 const userDB = {
   async init() {
-    users = (await getUsers(1)).data;
-    users = users.concat((await getUsers(2)).data);
+    users = users.concat((await getUsers(1)) || []);
+    users = users.concat((await getUsers(2)) || []);
     idSeed = users[users.length - 1].id + 1;
 
     return Math.ceil(users.length / USERS_PER_PAGE);

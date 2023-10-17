@@ -1,4 +1,4 @@
-import { User, UserData } from '../api/getUsers.ts';
+import { User } from '../api/getUsers.ts';
 import { userDB } from './database.ts';
 import { getUsers } from '../api/getUsers.ts';
 
@@ -20,24 +20,12 @@ const user2 = {
 
 vi.mock('../api/getUsers.ts', () => {
   return {
-    getUsers: vi.fn<[number], UserData>((page: number) => {
+    getUsers: vi.fn<[number], User[]>((page: number) => {
       if (page === 1) {
-        return {
-          data: [user1],
-          page: 1,
-          per_page: 1,
-          total: 2,
-          total_pages: 2,
-        };
+        return [user1];
+      } else {
+        return [user2];
       }
-
-      return {
-        data: [user2],
-        page: 2,
-        per_page: 1,
-        total: 2,
-        total_pages: 2,
-      };
     }),
   };
 });
