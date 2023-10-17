@@ -63,5 +63,9 @@ const userDB = {
   },
 };
 
+window.addEventListener('logout', () => {
+  users = [];
+});
+
 Object.freeze(userDB);
 export { userDB };
