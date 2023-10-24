@@ -5,6 +5,7 @@ import { Footer } from './fragments/Footer';
 import { renderLogin } from './fragments/login';
 import { renderDashboard } from './fragments/dashboard/dashboard';
 import { isAuthenticated } from './auth';
+import { setThemePreference } from './theme';
 
 function renderAppLayout(root: HTMLDivElement) {
   root.append(new Header());
@@ -13,6 +14,8 @@ function renderAppLayout(root: HTMLDivElement) {
 }
 
 function startApp() {
+  setThemePreference();
+
   if (isAuthenticated()) {
     renderDashboard();
   } else {
