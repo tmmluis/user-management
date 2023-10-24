@@ -9,3 +9,7 @@ export function dispatchLogout() {
   localStorage.removeItem(storageKey);
   window.dispatchEvent(new Event('logout'));
 }
+
+export function isAuthenticated() {
+  return localStorage.getItem(storageKey);
+}

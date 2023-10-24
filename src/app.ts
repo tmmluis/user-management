@@ -4,6 +4,7 @@ import { renderMain } from './fragments/main';
 import { Footer } from './fragments/Footer';
 import { renderLogin } from './fragments/login';
 import { renderDashboard } from './fragments/dashboard/dashboard';
+import { isAuthenticated } from './auth';
 
 function renderAppLayout(root: HTMLDivElement) {
   renderHeader(root);
@@ -12,8 +13,7 @@ function renderAppLayout(root: HTMLDivElement) {
 }
 
 function startApp() {
-  const storageKey = 'auth-token';
-  if (localStorage.getItem(storageKey)) {
+  if (isAuthenticated()) {
     renderDashboard();
   } else {
     renderLogin();

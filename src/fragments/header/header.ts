@@ -2,7 +2,7 @@ import { boxIcon } from '../../icons/box.js';
 import { lightIcon } from '../../icons/light.js';
 import { darkIcon } from '../../icons/dark.js';
 import { handleThemeChange, setThemePreference } from './theme.js';
-import { dispatchLogout } from '../../auth.js';
+import { dispatchLogout, isAuthenticated } from '../../auth.js';
 
 export function renderHeader(container: HTMLDivElement) {
   const header = document.createElement('header');
@@ -31,8 +31,7 @@ export function renderHeader(container: HTMLDivElement) {
 }
 
 function setActionButton() {
-  const storageKey = 'auth-token';
-  if (localStorage.getItem(storageKey)) {
+  if (isAuthenticated()) {
     const actionButton = document.querySelector(
       '#action-button'
     ) as HTMLButtonElement;
