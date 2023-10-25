@@ -3,7 +3,7 @@ import { Header } from './fragments/header/Header';
 import { renderMain } from './fragments/main';
 import { Footer } from './fragments/Footer';
 import { renderLogin } from './fragments/login';
-import { renderDashboard } from './fragments/dashboard/dashboard';
+import { renderDashboard } from './fragments/dashboard/Dashboard';
 import { isAuthenticated } from './auth';
 import { setThemePreference } from './theme';
 
