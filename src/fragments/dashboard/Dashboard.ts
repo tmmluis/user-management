@@ -26,8 +26,3 @@ export class UserDashboard extends HTMLElement {
 }
 
 customElements.define('user-dashboard', UserDashboard);
-
-export function renderDashboard() {
-  const main = document.querySelector('main') as HTMLDivElement;
-  main.innerHTML = '<user-dashboard></user-dashboard>';
-}

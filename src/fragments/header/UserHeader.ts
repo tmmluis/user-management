@@ -2,12 +2,12 @@ import { boxIcon } from '../../icons/box.js';
 import './ThemeToggle.js';
 import { dispatchLogout, isAuthenticated } from '../../auth.js';
 
-export class Header extends HTMLElement {
+export class UserHeader extends HTMLElement {
   loggedIn: boolean;
 
   constructor() {
     super();
-    this.loggedIn = isAuthenticated() ? true : false;
+    this.loggedIn = isAuthenticated();
   }
 
   connectedCallback() {
@@ -52,4 +52,4 @@ export class Header extends HTMLElement {
   }
 }
 
-customElements.define('portfolio-header', Header);
+customElements.define('user-header', UserHeader);

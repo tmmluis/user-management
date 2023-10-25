@@ -4,7 +4,7 @@ import { typescriptIcon } from '../icons/typescript';
 import { linkedinIcon } from '../icons/linkedin';
 import reqresIcon from '../icons/reqres.png';
 
-export class Footer extends HTMLElement {
+export class UserFooter extends HTMLElement {
   constructor() {
     super();
   }
@@ -38,4 +38,4 @@ export class Footer extends HTMLElement {
   }
 }
 
-customElements.define('portfolio-footer', Footer);
+customElements.define('user-footer', UserFooter);

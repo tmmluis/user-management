@@ -11,5 +11,5 @@ export function dispatchLogout() {
 }
 
 export function isAuthenticated() {
-  return localStorage.getItem(storageKey);
+  return !!localStorage.getItem(storageKey);
 }

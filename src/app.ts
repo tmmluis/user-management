@@ -1,28 +1,14 @@
 import './style.css';
-import { Header } from './fragments/header/Header';
-import { renderMain } from './fragments/main';
-import { Footer } from './fragments/Footer';
-import { renderLogin } from './fragments/UserLogin';
-import { renderDashboard } from './fragments/dashboard/Dashboard';
-import { isAuthenticated } from './auth';
+import './fragments/header/UserHeader';
+import './fragments/MainContent';
+import './fragments/UserFooter';
 import { setThemePreference } from './theme';
 
-function renderAppLayout(root: HTMLDivElement) {
-  root.append(new Header());
-  renderMain(root);
-  root.append(new Footer());
-}
-
-function startApp() {
-  setThemePreference();
-
-  if (isAuthenticated()) {
-    renderDashboard();
-  } else {
-    renderLogin();
-  }
-}
+setThemePreference();
 
 const root = document.querySelector('#app') as HTMLDivElement;
-renderAppLayout(root);
-startApp();
+root.innerHTML = /*html*/ `
+    <user-header></user-header>
+    <main-content></main-content>
+    <user-footer></user-footer>
+  `;

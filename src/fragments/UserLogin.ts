@@ -1,6 +1,5 @@
 import { UserCredentials, loginUser } from '../api/loginUser';
 import { dispatchLogin } from '../auth';
-import { createErrorMessage } from './main';
 
 export class UserLogin extends HTMLElement {
   constructor() {
@@ -106,7 +105,9 @@ export class UserLogin extends HTMLElement {
 
 customElements.define('user-login', UserLogin);
 
-export function renderLogin() {
-  const main = document.querySelector('main') as HTMLDivElement;
-  main.innerHTML = '<user-login></user-login>';
+function createErrorMessage(message: string) {
+  const element = document.createElement('p');
+  element.classList.add('error');
+  element.innerText = message;
+  return element;
 }
